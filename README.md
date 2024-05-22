@@ -11,7 +11,7 @@ The following frameworks and languages have been used for this website:
 - Locomotive Scroll Framework
 - Git (for Version Control)
 
-> ### _"My portfolio website aims to captivate and inspire visitors. With the primary objective of highlighting my skills, experience, and unique design approach." - Cynthia Ugwu_
+> ### _"My portfolio website aims to captivate and inspire visitors. With the primary objective of highlighting my skills, experience, and unique design approach." - Makujang Kamei
 
 ## What to Look Out For?
 
