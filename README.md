@@ -1,6 +1,6 @@
 
 
-<img src="banner.png" width=100%>
+
 
 The following frameworks and languages have been used for this website:
 - HTML
@@ -20,8 +20,3 @@ The following frameworks and languages have been used for this website:
 - Look out for **Mouse Follower Circle** on desktop devices.
 - Look out for the **Menu Section** that has a hover effect.
 
-## Screenshots
-
-<img src = "" width=100%>
-<img src = "" width=100%>
-<img src = "" width=100%>
