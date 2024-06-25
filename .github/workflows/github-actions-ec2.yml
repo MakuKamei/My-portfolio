@@ -10,6 +10,10 @@ jobs:
   deploy:
     name: Deploy to EC2 on main branch push
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        node-version: '20'
 
     steps:
       - name: Checkout the files
