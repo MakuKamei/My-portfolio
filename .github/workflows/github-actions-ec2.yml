@@ -1,6 +1,5 @@
 name: Push-to-EC2
 
-# Trigger deployment only on push to main branch
 on:
   push:
     branches:
@@ -12,35 +11,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout the files
+      - name: Checkout the code
         uses: actions/checkout@v2
 
-      - name: Set up Node.js
+      - name: Set up Node.js 16.x
         uses: actions/setup-node@v2
         with:
-          node-version: '16'  # Use Node.js 16 for setup (adjust to '20' if supported by actions)
+          node-version: '16'
 
-      - name: Deploy to Server 1
+      - name: Deploy to Server
         uses: easingthemes/ssh-deploy@main
         env:
           SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
           REMOTE_HOST: ${{ secrets.HOST_DNS }}
           REMOTE_USER: ${{ secrets.USERNAME }}
-          TARGET: ${{ secrets.TARGET_DIR }}
+          TARGET: /var/www/html  # Assuming /var/www/html is Nginx root directory
 
-      - name: Executing remote ssh commands using ssh key
+      - name: Move files to Nginx root directory
+        run: |
+          sudo mv /var/www/maku/My-portfolio/* /var/www/html/
+
+      - name: Restart Nginx
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST_DNS }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            sudo apt-get -y update
-            sudo apt-get install -y nginx
-            sudo systemctl start nginx
-            sudo systemctl enable nginx
-            
-            # Move portfolio files to /var/www/html
-            sudo mv /home/ubuntu/My-portfolio/* /var/www/html/
-            
-            # Additional commands specific to your deployment
+            sudo systemctl restart nginx
