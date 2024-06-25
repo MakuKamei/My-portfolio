@@ -18,7 +18,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '16'  # Use Node.js 16 for setup
+          node-version: '16'  # Use Node.js 16 for setup (adjust to '20' if supported by actions)
 
       - name: Deploy to Server 1
         uses: easingthemes/ssh-deploy@main
