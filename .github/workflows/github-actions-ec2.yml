@@ -8,8 +8,6 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    env:
-      NODE_VERSION: '20.x'
     
     steps:
     - name: Checkout code
@@ -21,6 +19,6 @@ jobs:
     - name: Deploy to EC2
       run: |
         ssh -o StrictHostKeyChecking=no \
-          -i ${{ secrets.SSH_PRIVATE_KEY }} \
-          ubuntu@your-ec2-instance-ip \
-          'cd /var/www/maku && git pull origin main && sudo systemctl restart nginx'
+          -i ${{ secrets.EC2_SSH_KEY }} \
+          ${{ secrets.USERNAME }}@${{ secrets.HOST_DNS }} \
+          'cd ${{ secrets.TARGET_DIR }} && git pull origin main && sudo systemctl restart nginx'
