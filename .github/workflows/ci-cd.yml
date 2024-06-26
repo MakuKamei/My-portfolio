@@ -16,16 +16,25 @@ jobs:
       - name: List Directory Contents
         run: ls -l  # List the contents of the current directory for verification
 
+      - name: Navigate to My-portfolio Directory
+        run: cd My-portfolio
+
       - name: Install Node.js and npm
         uses: actions/setup-node@v2
         with:
           node-version: '14'  # Use Node.js version 14
 
       - name: Install Dependencies
-        run: |
-          ls -l  # List contents for debugging
-          npm install
+        run: npm install
 
       - name: Build Project
+        run: npm run build
+
+      - name: Deploy to EC2 via SSH
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
-          npm run build
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H 13.53.87.90 >> ~/.ssh/known_hosts
+          scp -r ./* ubuntu@13.53.87.90:/var/www/My-portfolio
