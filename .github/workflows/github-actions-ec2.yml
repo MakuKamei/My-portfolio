@@ -12,7 +12,10 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-    
+      runs-on: ubuntu-latest
+      env:
+        NODE_VERSION: '20.x'
+
     - name: Install SSH
       run: sudo apt-get install openssh-client
       
