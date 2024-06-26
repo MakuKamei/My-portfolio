@@ -16,8 +16,8 @@ jobs:
       - name: Setup SSH
         run: |
           eval "$(ssh-agent -s)"
-          ssh-add ~/.ssh/id_rsa
-          ssh-add -l  # Debugging: Check loaded keys
+          ssh-add /home/ubuntu/.ssh/id_rsa
+          ssh-add -l  # Verify the key is loaded
 
       - name: Deploy to EC2 via SSH
         run: |
