@@ -13,20 +13,29 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Navigate to Project Directory
-        run: cd My-portfolio
+      - name: List Directory Contents
+        run: ls -l  # List the contents of the current directory for verification
+
+      - name: Install Node.js and npm
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'  # Use Node.js version 14
 
       - name: Install Dependencies
-        run: npm install
+        run: |
+          ls -l  # List contents for debugging
+          npm install
 
       - name: Build Project
-        run: npm run build
+        run: |
+          npm run build
 
       - name: Deploy to EC2 via SSH
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          EC2_PUBLIC_IP: ${{ secrets.EC2_PUBLIC_IP }}
         run: |
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H your-ec2-public-ip >> ~/.ssh/known_hosts
-          scp -r * ubuntu@your-ec2-public-ip:/var/www/My-portfolio
+          ssh-keyscan -H ${{ secrets.EC2_PUBLIC_IP }} >> ~/.ssh/known_hosts
+          scp -r ./* ubuntu@${{ secrets.EC2_PUBLIC_IP }}:/var/www/My-portfolio
