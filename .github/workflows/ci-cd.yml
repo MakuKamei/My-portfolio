@@ -1,12 +1,12 @@
-name: CI/CD Pipeline for My-portfolio
+name: CI/CD Pipeline
 
 on:
   push:
     branches:
-      - main
+      - main  # Adjust to your main branch name
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -15,14 +15,12 @@ jobs:
 
       - name: Setup SSH
         run: |
-          mkdir -p ~/.ssh
-          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
           eval "$(ssh-agent -s)"
           ssh-add ~/.ssh/id_rsa
+          ssh-add -l  # Debugging: Check loaded keys
 
-      - name: Add EC2 Public IP to Known Hosts
-        run: ssh-keyscan -H 13.53.87.90 >> ~/.ssh/known_hosts
-
-      - name: Deploy to EC2 via SCP
-        run: scp -r .
+      - name: Deploy to EC2 via SSH
+        run: |
+          scp -r ./* ubuntu@13.53.87.90:/var/www/My-portfolio
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
