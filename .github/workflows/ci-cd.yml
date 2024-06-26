@@ -13,14 +13,16 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: List Directory Contents
-        run: ls -l  # List the contents of the current directory for verification
+      - name: Create SSH Directory
+        run: mkdir -p ~/.ssh
 
-      - name: Deploy to EC2 via SSH
+      - name: Write SSH Private Key
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-        run: |
-          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H 13.53.87.90 >> ~/.ssh/known_hosts
-          scp -r ./* ubuntu@13.53.87.90:/var/www/My-portfolio
+        run: echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
+
+      - name: Add EC2 Public IP to Known Hosts
+        run: ssh-keyscan -H 13.53.87.90 >> ~/.ssh/known_hosts
+
+      - name: Deploy to EC2 via SCP
+        run: scp -r ./* ubuntu@13.53.87.90:/var/www/My-portfolio
