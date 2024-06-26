@@ -1,8 +1,0 @@
-- name: Deploy using easingthemes/ssh-deploy
-  uses: easingthemes/ssh-deploy@main
-  with:
-    ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
-    remote-host: ${{ secrets.HOST_DNS }}
-    remote-user: ${{ secrets.USERNAME }}
-    source: "."  # Source directory to deploy from
-    target: "/var/www/maku"  # Target directory on the remote server
