@@ -16,20 +16,6 @@ jobs:
       - name: List Directory Contents
         run: ls -l  # List the contents of the current directory for verification
 
-      - name: Navigate to My-portfolio Directory
-        run: cd My-portfolio
-
-      - name: Install Node.js and npm
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'  # Use Node.js version 14
-
-      - name: Install Dependencies
-        run: npm install
-
-      - name: Build Project
-        run: npm run build
-
       - name: Deploy to EC2 via SSH
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
