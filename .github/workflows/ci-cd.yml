@@ -3,7 +3,7 @@ name: CI/CD Pipeline for My-portfolio
 on:
   push:
     branches:
-      - main  # Adjust this to your main branch name
+      - main
 
 jobs:
   build:
@@ -13,15 +13,13 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Create SSH Directory
-        run: mkdir -p ~/.ssh
-
-      - name: Write SSH Private Key
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Setup SSH
         run: |
+          mkdir -p ~/.ssh
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
+          eval "$(ssh-agent -s)"
+          ssh-add ~/.ssh/id_rsa
 
       - name: Add EC2 Public IP to Known Hosts
         run: ssh-keyscan -H 13.53.87.90 >> ~/.ssh/known_hosts
