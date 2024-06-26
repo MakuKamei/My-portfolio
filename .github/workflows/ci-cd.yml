@@ -25,4 +25,4 @@ jobs:
         run: ssh-keyscan -H 13.53.87.90 >> ~/.ssh/known_hosts
 
       - name: Deploy to EC2 via SCP
-        run: scp -r ./* ubuntu@13.53.87.90:/var/www/My-portfolio
+        run: scp -r .
