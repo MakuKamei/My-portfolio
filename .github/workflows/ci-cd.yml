@@ -3,7 +3,7 @@ name: CI/CD Pipeline for My-portfolio
 on:
   push:
     branches:
-      - main
+      - main  # Adjust this to your main branch name
 
 jobs:
   build:
@@ -19,7 +19,9 @@ jobs:
       - name: Write SSH Private Key
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-        run: echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
+        run: |
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
 
       - name: Add EC2 Public IP to Known Hosts
         run: ssh-keyscan -H 13.53.87.90 >> ~/.ssh/known_hosts
